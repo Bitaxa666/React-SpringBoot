@@ -13,7 +13,6 @@ td, th {
 }
 
 /*Classes for creating dialogs*/
-
 .modalDialog {
     position: fixed;
     font-family: Arial, Helvetica, sans-serif;
@@ -67,7 +66,7 @@ td, th {
 }
 
 .close:hover { background: #00d9ff; }
-
+/*
 .marginadd {
     margin : 40px 40px;
-}
+}*/

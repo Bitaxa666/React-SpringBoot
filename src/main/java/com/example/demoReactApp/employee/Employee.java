@@ -18,8 +18,8 @@ public class Employee {
     Long id;
     private String firstName;
     private String lastName;
-    private int age;
     private String description;
+    private int age;
 
     private @Version
     @JsonIgnore
