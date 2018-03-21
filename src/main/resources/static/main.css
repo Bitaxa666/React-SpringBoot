@@ -1,3 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+
+body {
+    font-family:'Roboto', sans-serif;
+    background: #D0F5A9;
+    margin: 0 0;
+}
+
+#find-text-field {
+    padding-left: 15px;
+}
+/*
+.pageBackground {
+
+}*/
+/*.findFields {
+    border: 1px solid #999;
+    padding: 10px;
+}*/
+
 input.field {
     width: 90%;
 }

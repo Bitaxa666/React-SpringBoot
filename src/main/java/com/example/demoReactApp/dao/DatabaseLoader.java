@@ -1,7 +1,5 @@
 package com.example.demoReactApp.dao;
 
-import com.example.demoReactApp.employee.Employee;
-import com.example.demoReactApp.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -9,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by user on 3/6/18.
  */
-
+/*
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
@@ -30,4 +28,4 @@ public class DatabaseLoader implements CommandLineRunner {
         this.repository.save(new Employee("Meriadoc", "Brandybuck", "pony rider", 19));
         this.repository.save(new Employee("Peregrin", "Took", "pipe smoker", 59));
     }
-}
+}*/

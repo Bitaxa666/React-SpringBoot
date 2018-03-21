@@ -4,7 +4,7 @@ var path = require('path');
 var node_dir = __dirname + '/node_modules';
 
 module.exports = {
-    entry: './src/main/js/appWorkEmplo.js',
+    entry: './src/main/js/app.js',
     devtool: 'sourcemaps',
     cache: true,
     debug: true,

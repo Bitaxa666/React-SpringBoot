@@ -11,7 +11,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 //@PreAuthorize("hasRole('ROLE_MANAGER')")
 /*public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
 
-}*/
+}
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
-}
+}*/
