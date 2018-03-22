@@ -6,6 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import {lightGreenA700, green800} from 'material-ui/styles/colors';
 
 /*как добавить к бабелю ()=> функцию*/
@@ -45,15 +47,32 @@ export default class MyAwesomeReactComponent extends React.Component {
         }
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleSearchButtonActivate = this.handleSearchButtonActivate.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
     };
 
     getInitialState() {
-        return {searchField: ''}
+        return {
+            searchField: '',
+        /*    displayedSongs: SONGS,*/
+        }
     };
 
-    handleSearch(e) {
+    handleSearchButtonActivate(e) {
         this.setState({searchField: e.target.value})
+    };
+
+    handleSearch(e){
+    /*    var searchQuery=e.target.value.toLowerCase();
+        var displayedSongs = SONGS.filter(function (el) {
+            var searchValue = el.name.toLowerCase();
+            return searchValue.indexOf(searchQuery) !== -1;  //добавить фильтры
+        });
+
+        this.setState({
+            displayedSongs: displayedSongs
+        });
+        */
     };
 
     handleOpen () {
@@ -94,7 +113,8 @@ export default class MyAwesomeReactComponent extends React.Component {
                         floatingLabelFocusStyle={findButtonStyles.floatingLabelFocusStyle}
                         name="searchField"
                         value={this.state.searchField}
-                        onChange={this.handleSearch}
+                        onChange={this.handleSearchButtonActivate}
+                        /*onChange={this.handleSearch}*/
                     /><br />
                     <FlatButton
                         label="Search"
@@ -102,7 +122,10 @@ export default class MyAwesomeReactComponent extends React.Component {
                         hoverColor="#8AA62F"
                         disabled={!this.state.searchField} />
                 </div>
-                <RaisedButton label="ADD SONG" style={style} secondary={true} onClick={this.handleOpen} />
+
+                <FloatingActionButton secondary={true} style={style} onClick={this.handleOpen}>
+                    <ContentAdd />
+                </FloatingActionButton>
                 <Dialog
                     title="Create new song form"
                     actions={actions}

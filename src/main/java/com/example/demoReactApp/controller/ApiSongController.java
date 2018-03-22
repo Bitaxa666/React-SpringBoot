@@ -32,9 +32,31 @@ public class ApiSongController {
 
     //-----------------------------All Songs List
     @GetMapping("/songs")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Song> getAllSong(){
-        return songRepository.findAll();
+    //@ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Song>> getAllSong(){
+        logger.info("getting all users");
+        List<Song> songs = songRepository.findAll();
+        if (songs == null || songs.isEmpty()){
+            logger.info("no users found");
+            return new ResponseEntity<List<Song>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Song>>(songs, HttpStatus.OK);
+        //return songRepository.findAll();
+    }
+
+    //---------------------------Get song by id
+    @GetMapping("/song/{id}")
+    public ResponseEntity<Song> getSong(@PathVariable("id") long id){
+        logger.info("getting song with id: {}", id);
+        Song song = songService.findById(id);
+        //Song song = songRepository.findOne();
+        if (song == null){
+            logger.info("song with id {} not found", id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        logger.info("song with id is find: {}, {}", id, song);
+        return new ResponseEntity<Song>(song, HttpStatus.OK);
+
     }
     // -------------------Create a Song
     @PostMapping("/song")
@@ -44,12 +66,31 @@ public class ApiSongController {
         songService.saveSong(song);
         return song;
     }
+    // --------------------Edit Existing Song
+    @PutMapping(value = "/song/{id}")
+    public ResponseEntity<?> updateSong(@PathVariable long id, @RequestBody Song song){
+        logger.info("updating user: {}", song);
+        Song currentSong = songService.findById(id);
 
+        if (currentSong == null){
+            logger.info("User with id {} not found", id);
+            return new ResponseEntity(new CustomErrorType("Song with id: " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        currentSong.setIdSong(song.getIdSong());
+        currentSong.setName(song.getName());
+        currentSong.setDuration(song.getDuration());
+        currentSong.setDescription(song.getDescription());
+        currentSong.setPhotoUrl(song.getPhotoUrl());
+        currentSong.setSongUrl(song.getSongUrl());
+
+        songService.updateSong(currentSong);//или song
+        return new ResponseEntity<Song>(currentSong, HttpStatus.OK);
+    }
     // ------------------- Delete a Song
     @DeleteMapping("/song/{id}")
     public ResponseEntity<?> deleteSong(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting Song with id {}", id);
-
         Song songForDel = songService.findById(id);
         if (songForDel == null) {
             logger.error("Unable to delete. Song with id {} not found.", id);

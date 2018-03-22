@@ -1,6 +1,10 @@
 package com.example.demoReactApp.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
@@ -15,6 +19,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name="song")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Song {
 
     @Id
@@ -25,6 +30,12 @@ public class Song {
     // @ManyToOne
     //  @JoinColumn(name="id_color", referencedColumnName="id_color", nullable=false)
     //private Color color1;
+    //bi-directional many-to-one association to User
+   /* @ManyToOne(fetch=FetchType.LAZY)
+   @NotFound(
+    action = NotFoundAction.IGNORE)
+    @JoinColumn(name="Users_id")
+    private User user = new User();*/
     @Column(name = "id_color")
     private int idColor;
 

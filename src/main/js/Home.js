@@ -4,9 +4,9 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
-import FontIcon from 'material-ui/FontIcon';
+import {List, ListItem} from 'material-ui/List';
+import ContentHome from 'material-ui/svg-icons/action/home';
+import Divider from 'material-ui/Divider';
 
 
 const style = {
@@ -36,15 +36,34 @@ export default class Home extends React.Component {
                         style={style}
                         title="SONG LIST"
                         onLeftIconButtonClick={this.handleToggle} >
-                    <Drawer width={200} open={this.state.open} zDepth={4} >
+                    <Drawer className="drawerBackGround"
+                            width={180}
+                            open={this.state.open}
+                            zDepth={2}
+                            docked={false}
+                            containerStyle={{ backgroundColor: '#D0F5A9',}}>
                         <AppBar
                             style={style}
                             onTitleClick={this.handleToggleClose}
                             title="Menu"
                             onLeftIconButtonClick={this.handleToggleClose}
                         />
-                        <MenuItem>Home</MenuItem>
-                        <MenuItem>Songs List</MenuItem>
+                        <List>
+                            <ListItem primaryText="Home"
+                                      rightIcon={<ContentHome />}
+                                      onClick={this.handleToggleClose} /*Добавить слайдер при клике на эту ссылку*/
+                            />
+                            <ListItem primaryText="Songs List"
+                                      onClick={this.handleToggleClose}
+                            />
+                            <ListItem primaryText="Player"
+                                      onClick={this.handleToggleClose}
+                            />
+                            <ListItem primaryText="Technology"
+                                      onClick={this.handleToggleClose}
+                            />
+                        </List>
+                        <Divider style={{ backgroundColor: '#80FF00',}} />
                     </Drawer>
                 </AppBar>
             </div>

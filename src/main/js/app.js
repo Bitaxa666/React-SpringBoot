@@ -46,14 +46,14 @@ class App extends Component {
 */
 const style = {
     height: '100%',
-    width: '80%' ,
-    /*margin: '5% 10%',*/
+    width: '65%' ,
+    margin: '5% 5%',
     textAlign: 'center',
     display: 'inline-block',
 };
-const style1 = {
-    height: '100%',
-    width: '20%',
+const stylefindBlock = {
+    height: '40%',
+    width: '25%',
     textAlign: 'center',
     display: 'inline-block',
     position: 'absolute',
@@ -65,10 +65,10 @@ const App = () => (
     <MuiThemeProvider>
         <div className="pageBackground">
             <Home />
-            <div className="findBlock" style={style1}>
+            <div className="findBlock" style={stylefindBlock}>
                 <MyAwesomeReactComponent />
             </div>
-            <Paper style={style} zDepth={4}>
+            <Paper className="listPapper" style={style} zDepth={4}>
                 <ListExampleMessages />
             </Paper>
         </div>

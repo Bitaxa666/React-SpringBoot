@@ -50,7 +50,7 @@ componentDidMount() {
 const iconButtonElement = (
     <IconButton
         touch={true}
-        tooltip="more"
+        tooltip="more..."
         tooltipPosition="bottom-left"
     >
         <MoreVertIcon color={grey400} />
@@ -64,11 +64,53 @@ const rightIconMenu = (
     </IconMenu>
 );
 
+var SONGS = [
+    {
+        id: 1,
+        topName: 'Test top article?',
+        name: 'Brendan Lim',
+        avatar: 'https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png',
+        description: '--I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?'
+
+    }, {
+        id: 2,
+        topName: 'Summer BBQ&nbsp;&nbsp; 4',
+        name: 'Tomas Lim',
+        avatar: 'https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png',
+        description: '--Wish I could come, but I&apos;m out of town this weekend.'
+    }, {
+        id: 3,
+        topName: 'Tomas Cat Test',
+        name: 'Nik Dog',
+        avatar: 'https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png',
+        description: '--I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?'
+    }
+];
+/*
+var SongItem = React.createClass({
+    render: function () {
+        return(
+            <ListItem
+                leftAvatar={<Avatar src={this.props.avatar} />}
+                rightIconButton={rightIconMenu}
+                primaryText={this.props.topName}
+                secondaryText={
+                    <p>
+                        <span style={{color: darkBlack}}>{this.props.name}</span>
+                        {this.props.description}
+                    </p>
+                }
+                secondaryTextLines={2}
+            />
+        );
+    }
+});
+*/
 const ListExampleMessages = () => (
     <div style={styleBackground}>
         <MobileTearSheet style={style}>
             <List>
-               {/* <Subheader>All Songs List</Subheader>*/}
+                {/* <Subheader>All Songs List</Subheader>*/}
                 <ListItem
                     leftAvatar={<Avatar src="https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png" />}
                     rightIconButton={rightIconMenu}
@@ -81,7 +123,7 @@ const ListExampleMessages = () => (
                     }
                     secondaryTextLines={2}
                 />
-                <Divider inset={true} />
+                <Divider style={{backgroundColor: '#80FF00',}} />
                 <ListItem
                     leftAvatar={<Avatar src="https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png" />}
                     rightIconButton={rightIconMenu}
@@ -96,7 +138,7 @@ const ListExampleMessages = () => (
                     }
                     secondaryTextLines={2}
                 />
-                <Divider inset={true} />
+                <Divider style={{backgroundColor: '#80FF00',}} />
                 <ListItem
                     leftAvatar={<Avatar src="https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png" />}
                     rightIconButton={rightIconMenu}
@@ -111,7 +153,7 @@ const ListExampleMessages = () => (
                     }
                     secondaryTextLines={2}
                 />
-                <Divider inset={true} />
+                <Divider style={{backgroundColor: '#80FF00',}} />
                 <ListItem
                     leftAvatar={<Avatar src="https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png" />}
                     rightIconButton={rightIconMenu}
@@ -126,6 +168,17 @@ const ListExampleMessages = () => (
                     }
                     secondaryTextLines={2}
                 />
+               {/* {
+                    SONGS.map(function (el) {
+                        return <SongItem
+                            key={el.id}
+                            name={el.name}
+                            topName={el.topName}
+                            avatar={el.avatar}
+                            description={el.description}
+                        />;
+                    })
+                }*/}
             </List>
         </MobileTearSheet>
     </div>

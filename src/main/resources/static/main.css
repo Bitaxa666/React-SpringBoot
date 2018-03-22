@@ -9,10 +9,7 @@ body {
 #find-text-field {
     padding-left: 15px;
 }
-/*
-.pageBackground {
 
-}*/
 /*.findFields {
     border: 1px solid #999;
     padding: 10px;
@@ -86,7 +83,23 @@ td, th {
 }
 
 .close:hover { background: #00d9ff; }
-/*
-.marginadd {
-    margin : 40px 40px;
-}*/
+
+/**
+ * Footer CSS
+ */
+footer {
+    box-sizing: border-box;
+    height: 10%;
+    /*background-color: #eee;*/
+    border-top: 2px solid #80FF00;
+    padding-top: 35px;
+    margin-top: 5%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.my-container {
+    margin-left: 40%;
+    color: #80FF00;
+}
