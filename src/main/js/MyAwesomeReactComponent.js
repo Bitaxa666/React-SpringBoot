@@ -44,6 +44,7 @@ export default class MyAwesomeReactComponent extends React.Component {
             open: false,
             dataSource: [],
             songName:'',
+            newSongs: [],
         }
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -84,7 +85,16 @@ export default class MyAwesomeReactComponent extends React.Component {
     };
 
     addSong () {
-
+        axios.post('/user', {
+            firstName: 'Fred',
+            lastName: 'Flintstone'
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 
     render() {
@@ -112,15 +122,15 @@ export default class MyAwesomeReactComponent extends React.Component {
                         floatingLabelStyle={findButtonStyles.floatingLabelStyle}
                         floatingLabelFocusStyle={findButtonStyles.floatingLabelFocusStyle}
                         name="searchField"
-                        value={this.state.searchField}
-                        onChange={this.handleSearchButtonActivate}
-                        /*onChange={this.handleSearch}*/
+                        value={this.props.searchField}
+                        // onChange={this.handleSearchButtonActivate}
+                        onChange={this.props.handleSearch}
                     /><br />
                     <FlatButton
                         label="Search"
                         backgroundColor="#a4c639"
                         hoverColor="#8AA62F"
-                        disabled={!this.state.searchField} />
+                        disabled={!this.props.searchField} />
                 </div>
 
                 <FloatingActionButton secondary={true} style={style} onClick={this.handleOpen}>

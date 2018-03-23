@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper';
 import ListExampleMessages from './listExampleSelectable';
 import Home from './Home'
 import MyAwesomeReactComponent from './MyAwesomeReactComponent';
+import axios from 'axios';
 /**/
 /*
 class App extends Component {
@@ -61,19 +62,65 @@ const stylefindBlock = {
 };
 
 
-const App = () => (
-    <MuiThemeProvider>
-        <div className="pageBackground">
-            <Home />
-            <div className="findBlock" style={stylefindBlock}>
-                <MyAwesomeReactComponent />
+
+
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            songs: [
+            ],
+            displayedSongs: [],
+            searchField: ''
+        }
+        this.handleSearch = this.handleSearch.bind(this);
+
+    };
+
+    componentDidMount() {
+        const self = this;
+        axios.get('http://localhost:8013/api/v1/songs')
+            .then(function (response) {
+                console.log(response.data);
+                console.log(response.headers);
+                self.setState({
+                    songs: response.data,
+                    displayedSongs: response.data})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
+    handleSearch(e){
+
+         var searchQuery=e.target.value.toLowerCase();
+         var displayedSongs = this.state.songs.filter(function (el) {
+         var searchValue = el.name.toLowerCase();
+         return searchValue.indexOf(searchQuery) !== -1;  //добавить фильтры
+         });
+
+         this.setState({
+            displayedSongs: displayedSongs,
+            searchField: e.target.value
+         });
+    };
+
+    render() {
+        return(<MuiThemeProvider>
+            <div className="pageBackground">
+                <Home />
+                <div className="findBlock" style={stylefindBlock}>
+                    <MyAwesomeReactComponent searchField={this.state.searchField} handleSearch={this.handleSearch} />
+                </div>
+                <Paper className="listPapper" style={style} zDepth={4}>
+                    <ListExampleMessages songs={this.state.displayedSongs} /> {/*displayedSongs*/}
+                </Paper>
             </div>
-            <Paper className="listPapper" style={style} zDepth={4}>
-                <ListExampleMessages />
-            </Paper>
-        </div>
-    </MuiThemeProvider>
-);
+        </MuiThemeProvider>)
+    }
+}
 
 ReactDOM.render(
     <App />,

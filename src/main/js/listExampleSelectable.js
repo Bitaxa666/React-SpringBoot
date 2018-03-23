@@ -86,103 +86,64 @@ var SONGS = [
         description: '--I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?'
     }
 ];
-/*
 var SongItem = React.createClass({
     render: function () {
         return(
             <ListItem
-                leftAvatar={<Avatar src={this.props.avatar} />}
+                leftAvatar={<Avatar src={this.props.photoUrl} />}  /**/ /*"https://ichef.bbci.co.uk/images/ic/960x540/p034633m.jpg"*/
+
                 rightIconButton={rightIconMenu}
-                primaryText={this.props.topName}
+                primaryText={this.props.name}
                 secondaryText={
                     <p>
-                        <span style={{color: darkBlack}}>{this.props.name}</span>
+                        <span style={{color: darkBlack}}>{this.props.duration}</span>
+                        <br />
+                        {/*{console.log(this.props.photoUrl)}*/}
                         {this.props.description}
+                        <br />
                     </p>
+
                 }
                 secondaryTextLines={2}
+
             />
         );
     }
 });
-*/
-const ListExampleMessages = () => (
-    <div style={styleBackground}>
-        <MobileTearSheet style={style}>
-            <List>
-                {/* <Subheader>All Songs List</Subheader>*/}
-                <ListItem
-                    leftAvatar={<Avatar src="https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png" />}
-                    rightIconButton={rightIconMenu}
-                    primaryText="Test top article?"
-                    secondaryText={
-                        <p>
-                            <span style={{color: darkBlack}}>Brendan Lim</span> --
-                            I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?
-                        </p>
-                    }
-                    secondaryTextLines={2}
-                />
-                <Divider style={{backgroundColor: '#80FF00',}} />
-                <ListItem
-                    leftAvatar={<Avatar src="https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png" />}
-                    rightIconButton={rightIconMenu}
-                    primaryText={
-                        <p>Summer BBQ&nbsp;&nbsp;<span style={{color: lightBlack}}>4</span></p>
-                    }
-                    secondaryText={
-                        <p>
-                            <span style={{color: darkBlack}}>to me, Scott, Jennifer</span> --
-                            Wish I could come, but I&apos;m out of town this weekend.
-                        </p>
-                    }
-                    secondaryTextLines={2}
-                />
-                <Divider style={{backgroundColor: '#80FF00',}} />
-                <ListItem
-                    leftAvatar={<Avatar src="https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png" />}
-                    rightIconButton={rightIconMenu}
-                    primaryText={
-                        <p>Summer BBQ&nbsp;&nbsp;<span style={{color: lightBlack}}>4</span></p>
-                    }
-                    secondaryText={
-                        <p>
-                            <span style={{color: darkBlack}}>to me, Scott, Jennifer</span> --
-                            Wish I could come, but I&apos;m out of town this weekend.
-                        </p>
-                    }
-                    secondaryTextLines={2}
-                />
-                <Divider style={{backgroundColor: '#80FF00',}} />
-                <ListItem
-                    leftAvatar={<Avatar src="https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png" />}
-                    rightIconButton={rightIconMenu}
-                    primaryText={
-                        <p>Summer BBQ&nbsp;&nbsp;<span style={{color: lightBlack}}>4</span></p>
-                    }
-                    secondaryText={
-                        <p>
-                            <span style={{color: darkBlack}}>to me, Scott, Jennifer</span> --
-                            Wish I could come, but I&apos;m out of town this weekend.
-                        </p>
-                    }
-                    secondaryTextLines={2}
-                />
-               {/* {
-                    SONGS.map(function (el) {
-                        return <SongItem
-                            key={el.id}
-                            name={el.name}
-                            topName={el.topName}
-                            avatar={el.avatar}
-                            description={el.description}
-                        />;
-                    })
-                }*/}
-            </List>
-        </MobileTearSheet>
-    </div>
-);
+class ListExampleMessages extends Component {
+
+
+    render () {
+        return (
+            <div style={styleBackground}>
+                <MobileTearSheet style={style}>
+                    <List>
+                        {
+                            this.props.songs.map((el, index) => {
+                                return (
+                                    <div key={el.idSong}>
+                                        <SongItem
+
+                                            name={el.name}
+                                            description={el.description}
+                                            duration={el.duration}
+                                            photoUrl={el.photoUrl}
+                                        />
+                                        {
+                                            this.props.songs.length - 1 > index &&
+                                            <Divider style={{backgroundColor: '#80FF00',}}/>
+                                        }
+                                    </div>
+                                );
+                            })
+                        }
+                    </List>
+                </MobileTearSheet>
+            </div>
+        )
+    }
+
+};
 
 
 export default ListExampleMessages;

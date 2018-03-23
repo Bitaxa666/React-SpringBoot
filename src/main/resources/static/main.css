@@ -6,6 +6,10 @@ body {
     margin: 0 0;
 }
 
+#react1 {
+    min-height: 800px;
+}
+
 #find-text-field {
     padding-left: 15px;
 }

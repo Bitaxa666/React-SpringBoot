@@ -49,6 +49,8 @@
 
 	'use strict';
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -77,7 +79,19 @@
 	
 	var _MyAwesomeReactComponent2 = _interopRequireDefault(_MyAwesomeReactComponent);
 	
+	var _axios = __webpack_require__(/*! axios */ 418);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	//import getMuiTheme from 'material-ui/styles/getMuiTheme';
+	
 	
 	/**/
 	/*
@@ -124,8 +138,6 @@
 	    textAlign: 'center',
 	    display: 'inline-block'
 	};
-	//import getMuiTheme from 'material-ui/styles/getMuiTheme';
-	
 	var stylefindBlock = {
 	    height: '40%',
 	    width: '25%',
@@ -135,27 +147,81 @@
 	    right: 0
 	};
 	
-	var App = function App() {
-	    return _react2.default.createElement(
-	        _MuiThemeProvider2.default,
-	        null,
-	        _react2.default.createElement(
-	            'div',
-	            { className: 'pageBackground' },
-	            _react2.default.createElement(_Home2.default, null),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'findBlock', style: stylefindBlock },
-	                _react2.default.createElement(_MyAwesomeReactComponent2.default, null)
-	            ),
-	            _react2.default.createElement(
-	                _Paper2.default,
-	                { className: 'listPapper', style: style, zDepth: 4 },
-	                _react2.default.createElement(_listExampleSelectable2.default, null)
-	            )
-	        )
-	    );
-	};
+	var App = function (_Component) {
+	    _inherits(App, _Component);
+	
+	    function App(props) {
+	        _classCallCheck(this, App);
+	
+	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	
+	        _this.state = {
+	            songs: [],
+	            displayedSongs: [],
+	            searchField: ''
+	        };
+	        _this.handleSearch = _this.handleSearch.bind(_this);
+	
+	        return _this;
+	    }
+	
+	    _createClass(App, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var self = this;
+	            _axios2.default.get('http://localhost:8013/api/v1/songs').then(function (response) {
+	                console.log(response.data);
+	                console.log(response.headers);
+	                self.setState({
+	                    songs: response.data,
+	                    displayedSongs: response.data });
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: 'handleSearch',
+	        value: function handleSearch(e) {
+	
+	            var searchQuery = e.target.value.toLowerCase();
+	            var displayedSongs = this.state.songs.filter(function (el) {
+	                var searchValue = el.name.toLowerCase();
+	                return searchValue.indexOf(searchQuery) !== -1; //добавить фильтры
+	            });
+	
+	            this.setState({
+	                displayedSongs: displayedSongs,
+	                searchField: e.target.value
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                _MuiThemeProvider2.default,
+	                null,
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'pageBackground' },
+	                    _react2.default.createElement(_Home2.default, null),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'findBlock', style: stylefindBlock },
+	                        _react2.default.createElement(_MyAwesomeReactComponent2.default, { searchField: this.state.searchField, handleSearch: this.handleSearch })
+	                    ),
+	                    _react2.default.createElement(
+	                        _Paper2.default,
+	                        { className: 'listPapper', style: style, zDepth: 4 },
+	                        _react2.default.createElement(_listExampleSelectable2.default, { songs: this.state.displayedSongs }),
+	                        ' '
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return App;
+	}(_react.Component);
 	
 	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('react1'));
 
@@ -32251,6 +32317,8 @@
 	    value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -32297,12 +32365,18 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by user on 3/15/18.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	/**
 	 * Created by user on 3/15/18.
 	 */
-	/**
-	 * Created by user on 3/15/18.
-	 */
+	
+	
 	var style = {
 	    marginLeft: 'auto',
 	    marginRight: 'auto',
@@ -32382,134 +32456,80 @@
 	    avatar: 'https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png',
 	    description: '--I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?'
 	}];
-	/*
-	var SongItem = React.createClass({
-	    render: function () {
-	        return(
-	            <ListItem
-	                leftAvatar={<Avatar src={this.props.avatar} />}
-	                rightIconButton={rightIconMenu}
-	                primaryText={this.props.topName}
-	                secondaryText={
-	                    <p>
-	                        <span style={{color: darkBlack}}>{this.props.name}</span>
-	                        {this.props.description}
-	                    </p>
-	                }
-	                secondaryTextLines={2}
-	            />
-	        );
+	var SongItem = _react2.default.createClass({
+	    displayName: 'SongItem',
+	
+	    render: function render() {
+	        return _react2.default.createElement(_List.ListItem, {
+	            leftAvatar: _react2.default.createElement(_Avatar2.default, { src: this.props.photoUrl }) /**/ /*"https://ichef.bbci.co.uk/images/ic/960x540/p034633m.jpg"*/
+	
+	            , rightIconButton: rightIconMenu,
+	            primaryText: this.props.name,
+	            secondaryText: _react2.default.createElement(
+	                'p',
+	                null,
+	                _react2.default.createElement(
+	                    'span',
+	                    { style: { color: _colors.darkBlack } },
+	                    this.props.duration
+	                ),
+	                _react2.default.createElement('br', null),
+	                this.props.description,
+	                _react2.default.createElement('br', null)
+	            ),
+	            secondaryTextLines: 2
+	
+	        });
 	    }
 	});
-	*/
-	var ListExampleMessages = function ListExampleMessages() {
-	    return _react2.default.createElement(
-	        'div',
-	        { style: styleBackground },
-	        _react2.default.createElement(
-	            _MobileTearSheet2.default,
-	            { style: style },
-	            _react2.default.createElement(
-	                _List.List,
-	                null,
-	                _react2.default.createElement(_List.ListItem, {
-	                    leftAvatar: _react2.default.createElement(_Avatar2.default, { src: 'https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png' }),
-	                    rightIconButton: rightIconMenu,
-	                    primaryText: 'Test top article?',
-	                    secondaryText: _react2.default.createElement(
-	                        'p',
+	
+	var ListExampleMessages = function (_Component) {
+	    _inherits(ListExampleMessages, _Component);
+	
+	    function ListExampleMessages() {
+	        _classCallCheck(this, ListExampleMessages);
+	
+	        return _possibleConstructorReturn(this, (ListExampleMessages.__proto__ || Object.getPrototypeOf(ListExampleMessages)).apply(this, arguments));
+	    }
+	
+	    _createClass(ListExampleMessages, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+	
+	            return _react2.default.createElement(
+	                'div',
+	                { style: styleBackground },
+	                _react2.default.createElement(
+	                    _MobileTearSheet2.default,
+	                    { style: style },
+	                    _react2.default.createElement(
+	                        _List.List,
 	                        null,
-	                        _react2.default.createElement(
-	                            'span',
-	                            { style: { color: _colors.darkBlack } },
-	                            'Brendan Lim'
-	                        ),
-	                        ' -- I\'ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?'
-	                    ),
-	                    secondaryTextLines: 2
-	                }),
-	                _react2.default.createElement(_Divider2.default, { style: { backgroundColor: '#80FF00' } }),
-	                _react2.default.createElement(_List.ListItem, {
-	                    leftAvatar: _react2.default.createElement(_Avatar2.default, { src: 'https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png' }),
-	                    rightIconButton: rightIconMenu,
-	                    primaryText: _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        'Summer BBQ\xA0\xA0',
-	                        _react2.default.createElement(
-	                            'span',
-	                            { style: { color: _colors.lightBlack } },
-	                            '4'
-	                        )
-	                    ),
-	                    secondaryText: _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        _react2.default.createElement(
-	                            'span',
-	                            { style: { color: _colors.darkBlack } },
-	                            'to me, Scott, Jennifer'
-	                        ),
-	                        ' -- Wish I could come, but I\'m out of town this weekend.'
-	                    ),
-	                    secondaryTextLines: 2
-	                }),
-	                _react2.default.createElement(_Divider2.default, { style: { backgroundColor: '#80FF00' } }),
-	                _react2.default.createElement(_List.ListItem, {
-	                    leftAvatar: _react2.default.createElement(_Avatar2.default, { src: 'https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png' }),
-	                    rightIconButton: rightIconMenu,
-	                    primaryText: _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        'Summer BBQ\xA0\xA0',
-	                        _react2.default.createElement(
-	                            'span',
-	                            { style: { color: _colors.lightBlack } },
-	                            '4'
-	                        )
-	                    ),
-	                    secondaryText: _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        _react2.default.createElement(
-	                            'span',
-	                            { style: { color: _colors.darkBlack } },
-	                            'to me, Scott, Jennifer'
-	                        ),
-	                        ' -- Wish I could come, but I\'m out of town this weekend.'
-	                    ),
-	                    secondaryTextLines: 2
-	                }),
-	                _react2.default.createElement(_Divider2.default, { style: { backgroundColor: '#80FF00' } }),
-	                _react2.default.createElement(_List.ListItem, {
-	                    leftAvatar: _react2.default.createElement(_Avatar2.default, { src: 'https://cdn.pixabay.com/photo/2017/01/27/13/13/winnie-the-pooh-2013026_960_720.png' }),
-	                    rightIconButton: rightIconMenu,
-	                    primaryText: _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        'Summer BBQ\xA0\xA0',
-	                        _react2.default.createElement(
-	                            'span',
-	                            { style: { color: _colors.lightBlack } },
-	                            '4'
-	                        )
-	                    ),
-	                    secondaryText: _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        _react2.default.createElement(
-	                            'span',
-	                            { style: { color: _colors.darkBlack } },
-	                            'to me, Scott, Jennifer'
-	                        ),
-	                        ' -- Wish I could come, but I\'m out of town this weekend.'
-	                    ),
-	                    secondaryTextLines: 2
-	                })
-	            )
-	        )
-	    );
-	};
+	                        this.props.songs.map(function (el, index) {
+	                            return _react2.default.createElement(
+	                                'div',
+	                                { key: el.idSong },
+	                                _react2.default.createElement(SongItem, {
+	
+	                                    name: el.name,
+	                                    description: el.description,
+	                                    duration: el.duration,
+	                                    photoUrl: el.photoUrl
+	                                }),
+	                                _this2.props.songs.length - 1 > index && _react2.default.createElement(_Divider2.default, { style: { backgroundColor: '#80FF00' } })
+	                            );
+	                        })
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return ListExampleMessages;
+	}(_react.Component);
+	
+	;
 	
 	exports.default = ListExampleMessages;
 
@@ -44434,7 +44454,8 @@
 	        _this.state = {
 	            open: false,
 	            dataSource: [],
-	            songName: ''
+	            songName: '',
+	            newSongs: []
 	        };
 	        _this.handleOpen = _this.handleOpen.bind(_this);
 	        _this.handleClose = _this.handleClose.bind(_this);
@@ -44481,7 +44502,16 @@
 	        }
 	    }, {
 	        key: 'addSong',
-	        value: function addSong() {}
+	        value: function addSong() {
+	            axios.post('/user', {
+	                firstName: 'Fred',
+	                lastName: 'Flintstone'
+	            }).then(function (response) {
+	                console.log(response);
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
+	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
@@ -44509,16 +44539,16 @@
 	                        floatingLabelStyle: findButtonStyles.floatingLabelStyle,
 	                        floatingLabelFocusStyle: findButtonStyles.floatingLabelFocusStyle,
 	                        name: 'searchField',
-	                        value: this.state.searchField,
-	                        onChange: this.handleSearchButtonActivate
-	                        /*onChange={this.handleSearch}*/
+	                        value: this.props.searchField
+	                        // onChange={this.handleSearchButtonActivate}
+	                        , onChange: this.props.handleSearch
 	                    }),
 	                    _react2.default.createElement('br', null),
 	                    _react2.default.createElement(_FlatButton2.default, {
 	                        label: 'Search',
 	                        backgroundColor: '#a4c639',
 	                        hoverColor: '#8AA62F',
-	                        disabled: !this.state.searchField })
+	                        disabled: !this.props.searchField })
 	                ),
 	                _react2.default.createElement(
 	                    _FloatingActionButton2.default,
@@ -47949,4 +47979,4 @@
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=bundle.js.mapndle.js.map
+//# sourceMappingURL=bundle.js.map
