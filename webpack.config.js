@@ -22,7 +22,10 @@ module.exports = {
                     cacheDirectory: true,
                     presets: ['es2015', 'react']
                 }
-            }
-        ]
+            },
+            {loader: 'style-loader!css-loader', test: /\.css$/},
+            {loader: 'url-loader', test: /\.gif$/},
+            {loader: 'file-loader', test: /\.(ttf|eot|svg)$/}
+        ],
     }
 };

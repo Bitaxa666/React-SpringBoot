@@ -2,31 +2,14 @@
  * Created by user on 3/20/18.
  */
 import React from 'react';
+
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import {lightGreenA700, green800} from 'material-ui/styles/colors';
 import axios from 'axios';
 
-const style = {
-    marginTop: 20,
-    marginBottom: 20,
-};
 
-const findButtonStyles = {
-
-    floatingLabelStyle: {
-        color: lightGreenA700,
-    },
-    floatingLabelFocusStyle: {
-        color: green800,
-    },
-};
-
-export default class MyAwesomeReactComponent extends React.Component {
-
+export default class UpdateDilog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -44,19 +27,12 @@ export default class MyAwesomeReactComponent extends React.Component {
         }
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.handleSearchButtonActivate = this.handleSearchButtonActivate.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.handleAddSubmit = this.handleAddSubmit.bind(this);
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
     };
 
-    getInitialState() {
-        return {
-            searchField: '',
-        /*    displayedSongs: SONGS,*/
-        }
-    };
-
-    handleSearchButtonActivate(e) {
+    handleUpdate(e) {
         this.setState({searchField: e.target.value})
     };
 
@@ -89,7 +65,7 @@ export default class MyAwesomeReactComponent extends React.Component {
 
         console.log(newSong);
 
-        axios.post('http://localhost:8013/api/v1/song', newSong
+        axios.put('http://localhost:8013/api/v1/song' + {id}, newSong
         )
             .then(function (response) {
                 console.log(response.data);
@@ -116,35 +92,17 @@ export default class MyAwesomeReactComponent extends React.Component {
 
         return (
             <div>
-                <div className="findFields">
-                    <TextField
-                        id="find-text-field"
-                        hintText="Search query"
-                        floatingLabelText="Search Text..."
-                        floatingLabelStyle={findButtonStyles.floatingLabelStyle}
-                        floatingLabelFocusStyle={findButtonStyles.floatingLabelFocusStyle}
-                        name="searchField"
-                        value={this.props.searchField}
-                        onChange={this.props.handleSearch}
-                    /><br />
-                    <FlatButton
-                        label="Search"
-                        backgroundColor="#a4c639"
-                        hoverColor="#8AA62F"
-                        disabled={!this.props.searchField} />
-                </div>
+                <div className="updateFields">
 
-                <FloatingActionButton secondary={true} style={style} onClick={this.handleOpen}>
-                    <ContentAdd />
-                </FloatingActionButton>
                 <Dialog
-                    title="Create new song form"
+                    title="Update song"
                     actions={actions}
                     modal={false}
                     open={this.state.open}
+                    /*onRequestClose={this.handleClose}*/
                 >
                     <TextField
-                        hintText="e.g.: 6..."
+                        defaultValue={this.props.idColor}
                         name="color_id"
                         floatingLabelText="Color ID"
                         fullWidth={true}
@@ -153,7 +111,7 @@ export default class MyAwesomeReactComponent extends React.Component {
                         onChange = {this.handleAddSubmit.bind(this)}
                     /><br />
                     <TextField
-                        hintText="Type song name..."
+                        defaultValue={this.props.name}
                         name="name"
                         floatingLabelText="Song name"
                         fullWidth={true}
@@ -162,43 +120,39 @@ export default class MyAwesomeReactComponent extends React.Component {
                         /*onChange = {this.onChange.bind(this)} как добавить валидацию?*/
                     /><br />
                     <TextField
-                        hintText="Type song description..."
+                        defaultValue={this.props.description}
                         name="description"
                         floatingLabelText="Song description"
                         fullWidth={true}
                         value = {this.state.description}
                         onChange = {this.handleAddSubmit.bind(this)}
-                        /*onChange = {this.onChange.bind(this)} как добавить валидацию?*/
                     /><br />
                     <TextField
-                        hintText="Type song duration..."
+                        defaultValue={this.props.duration}
                         name="duration"
                         floatingLabelText="Song duration"
                         fullWidth={true}
                         value = {this.state.duration}
                         onChange = {this.handleAddSubmit.bind(this)}
-                        /*onChange = {this.onChange.bind(this)} как добавить валидацию?*/
                     /><br />
                     <TextField
-                        hintText="Type song photoUrl..."
+                        defaultValue={this.props.photoUrl}
                         name="photoUrl"
                         floatingLabelText="Song photoUrl"
                         fullWidth={true}
                         value = {this.state.photoUrl}
                         onChange = {this.handleAddSubmit.bind(this)}
-                        /*onChange = {this.onChange.bind(this)} как добавить валидацию?*/
                     /><br />
                     <TextField
-                        hintText="Type song Url..."
+                        defaultValue={this.props.songUrl}
                         name="songUrl"
                         floatingLabelText="Song Url"
                         fullWidth={true}
                         value = {this.state.songUrl}
                         onChange = {this.handleAddSubmit.bind(this)}
-                        /*onChange = {this.onChange.bind(this)} как добавить валидацию?*/
                     />
                 </Dialog>
             </div>
         );
-    }
+    };
 }

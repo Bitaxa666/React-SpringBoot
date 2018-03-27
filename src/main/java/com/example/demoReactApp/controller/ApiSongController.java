@@ -61,7 +61,7 @@ public class ApiSongController {
     // -------------------Create a Song
     @PostMapping("/song")
     @ResponseStatus(HttpStatus.OK)
-    public Song createMessage(@RequestBody Song song, UriComponentsBuilder ucBuilder) {
+    public Song createMessage(@RequestBody Song song) {
         logger.info("Creating Song : {}", song);
         songService.saveSong(song);
         return song;
@@ -77,7 +77,6 @@ public class ApiSongController {
             return new ResponseEntity(new CustomErrorType("Song with id: " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
-        currentSong.setIdSong(song.getIdSong());
         currentSong.setName(song.getName());
         currentSong.setDuration(song.getDuration());
         currentSong.setDescription(song.getDescription());

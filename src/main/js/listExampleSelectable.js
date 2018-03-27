@@ -29,42 +29,8 @@ const styleBackground = {
 };
 
 let SelectableList = makeSelectable(List);
-/*
- getInitialState: function() {
- return {}
- }
-componentDidMount() {
-    const self = this;
-    axios.get('http://localhost:8013/test/string/ss')
-        .then(function (response) {
-            console.log(response.data);
-            console.log(response.headers);
-            self.setState({list: response.data})
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
-*/
 
-const iconButtonElement = (
-    <IconButton
-        touch={true}
-        tooltip="more..."
-        tooltipPosition="bottom-left"
-    >
-        <MoreVertIcon color={grey400} />
-    </IconButton>
-);
-const rightIconMenu = (
-    <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem>Test</MenuItem>
-        <MenuItem>Update</MenuItem>
-        <MenuItem>Delete</MenuItem>
-    </IconMenu>
-);
-
-var SONGS = [
+const SONGS = [
     {
         id: 1,
         topName: 'Test top article?',
@@ -86,19 +52,44 @@ var SONGS = [
         description: '--I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?'
     }
 ];
+
+const iconButtonElement = (
+    <IconButton
+        touch={true}
+        tooltip="more..."
+        tooltipPosition="bottom-left"
+    >
+        <MoreVertIcon color={grey400} />
+    </IconButton>
+);
+
+const rightIconMenu = (
+    <IconMenu iconButtonElement={iconButtonElement}>
+        <MenuItem
+            disabled={true}
+        >
+            Test
+        </MenuItem>
+        <MenuItem>Update</MenuItem>
+        <MenuItem
+           /* onClick={this.handleDeleteSong.bind(this)}*/
+        >
+            Delete
+        </MenuItem>
+    </IconMenu>
+);
+
 var SongItem = React.createClass({
     render: function () {
         return(
             <ListItem
-                leftAvatar={<Avatar src={this.props.photoUrl} />}  /**/ /*"https://ichef.bbci.co.uk/images/ic/960x540/p034633m.jpg"*/
-
+                leftAvatar={<Avatar src={this.props.photoUrl} />}
                 rightIconButton={rightIconMenu}
                 primaryText={this.props.name}
                 secondaryText={
                     <p>
                         <span style={{color: darkBlack}}>{this.props.duration}</span>
                         <br />
-                        {/*{console.log(this.props.photoUrl)}*/}
                         {this.props.description}
                         <br />
                     </p>
@@ -110,8 +101,32 @@ var SongItem = React.createClass({
         );
     }
 });
-class ListExampleMessages extends Component {
 
+export default class ListExampleMessages extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            dataSource: [],
+            songName:'',
+            newSongs: [],
+
+        }
+        this.handleDeleteSong = this.handleDeleteSong.bind(this);
+    };
+
+    handleDeleteSong(index, id){
+        var arr = this.state.songs;
+        arr.splice(index, 1);
+        this.setState({songs: arr});
+
+        axios.delete('http://localhost:8013/api/v1/song/' + {id});
+    };
+
+    updateBlock(){
+
+    };
 
     render () {
         return (
@@ -123,7 +138,7 @@ class ListExampleMessages extends Component {
                                 return (
                                     <div key={el.idSong}>
                                         <SongItem
-
+                                            id={el.idSong}
                                             name={el.name}
                                             description={el.description}
                                             duration={el.duration}
@@ -144,6 +159,3 @@ class ListExampleMessages extends Component {
     }
 
 };
-
-
-export default ListExampleMessages;
