@@ -1,6 +1,8 @@
 package com.example.demoReactApp.controller;
 
+import com.example.demoReactApp.dao.IColorRepository;
 import com.example.demoReactApp.dao.ISongRepository;
+import com.example.demoReactApp.employee.Color;
 import com.example.demoReactApp.employee.Song;
 import com.example.demoReactApp.services.ISongServices;
 import com.example.demoReactApp.uril.CustomErrorType;
@@ -12,7 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by user on 3/21/18.
@@ -23,6 +28,9 @@ public class ApiSongController {
 
     public static final Logger logger = LoggerFactory.getLogger(ApiSongController.class);
 
+
+    @Autowired
+    IColorRepository colorRepository;
 
     @Autowired
     ISongRepository songRepository;
@@ -98,6 +106,31 @@ public class ApiSongController {
         }
         songService.deleteSongById(id);
         return new ResponseEntity<Song>(HttpStatus.NO_CONTENT);
+    }
+
+
+    // -------------------------- Get Song By Color
+    @GetMapping("/{id}/songs")
+    public ResponseEntity<List<Color>> getColorSongs(@PathVariable("id") long id){
+        logger.info("getting all song with id: {}", id);
+        //Optional<Color> col1 = colorRepository.findById(id);
+        List<Color> col = colorRepository.findByIdColor(id);
+
+        /*Map<Color, Song> color = colorRepository.findById(id);
+        //Song song = songRepository.findOne();
+        if (color == null){
+            logger.info("song with id {} not found", id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        logger.info("song with id is find: {}, {}", id, color);
+        return new ResponseEntity<Song>(color, HttpStatus.OK);*/
+        //logger.info("song with id is find: {}, {}", id, col1.getSongs());
+        if(col !=null){
+            return new ResponseEntity<List<Color>>(col, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<List<Color>>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
 }

@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import Snackbar from 'material-ui/Snackbar';
 import {lightGreenA700, green800} from 'material-ui/styles/colors';
 import axios from 'axios';
 
@@ -31,6 +32,7 @@ export default class MyAwesomeReactComponent extends React.Component {
         super(props);
         this.state = {
             open: false,
+            openSuccessDialog: false,
             dataSource: [],
             songName:'',
             newSongs: [],
@@ -73,11 +75,24 @@ export default class MyAwesomeReactComponent extends React.Component {
     };
 
     handleClose ()  {
-        this.setState({open: false});
+        this.setState({
+            open: false,
+            openSuccessDialog: false,
+
+            name: '',
+            idColor: 5,
+            duration: '',
+            photoUrl: '',
+            description: '',
+            songUrl: '',
+        });
     };
 
     handleOnSubmit () {
 
+        this.setState({
+            openSuccessDialog: true,
+        });
         const newSong ={
             name:this.state.name,
             idColor:this.state.idColor,
@@ -111,6 +126,12 @@ export default class MyAwesomeReactComponent extends React.Component {
                 primary={true}
                 keyboardFocused={true}
                 onClick={this.handleOnSubmit}
+            />,
+            <Snackbar
+                open={this.state.openSuccessDialog}
+                message="Song is added to list"
+                autoHideDuration={2000}
+                onRequestClose={this.handleClose}
             />,
         ];
 

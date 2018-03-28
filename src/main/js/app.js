@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 //import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ListExampleMessages from './listExampleSelectable';
-import Home from './Home'
+import Home from './Home';
 import MyAwesomeReactComponent from './MyAwesomeReactComponent';
 import axios from 'axios';
 /**/

@@ -63,7 +63,19 @@ const iconButtonElement = (
     </IconButton>
 );
 
-const rightIconMenu = (
+
+function handleDeleteSong(id, index){
+    console.log(id, "Delete")
+    // var arr = this.state.songs;
+    // arr.splice(index, 1);
+    // this.setState({songs: arr});
+    //
+    // axios.delete('http://localhost:8013/api/v1/song/' + {id});
+};
+
+
+function rightIconMenu(id) {
+    return
     <IconMenu iconButtonElement={iconButtonElement}>
         <MenuItem
             disabled={true}
@@ -72,19 +84,19 @@ const rightIconMenu = (
         </MenuItem>
         <MenuItem>Update</MenuItem>
         <MenuItem
-           /* onClick={this.handleDeleteSong.bind(this)}*/
+            /*onClick={handleDeleteSong(id)}*/
         >
             Delete
         </MenuItem>
     </IconMenu>
-);
+};
 
 var SongItem = React.createClass({
     render: function () {
         return(
             <ListItem
                 leftAvatar={<Avatar src={this.props.photoUrl} />}
-                rightIconButton={rightIconMenu}
+                rightIconButton={rightIconMenu(this.props.id)}
                 primaryText={this.props.name}
                 secondaryText={
                     <p>
@@ -96,7 +108,6 @@ var SongItem = React.createClass({
 
                 }
                 secondaryTextLines={2}
-
             />
         );
     }
@@ -113,16 +124,16 @@ export default class ListExampleMessages extends React.Component {
             newSongs: [],
 
         }
-        this.handleDeleteSong = this.handleDeleteSong.bind(this);
+        // this.handleDeleteSong = this.handleDeleteSong.bind(this);
     };
-
-    handleDeleteSong(index, id){
-        var arr = this.state.songs;
-        arr.splice(index, 1);
-        this.setState({songs: arr});
-
-        axios.delete('http://localhost:8013/api/v1/song/' + {id});
-    };
+    //
+    // handleDeleteSong(index, id){
+    //     var arr = this.state.songs;
+    //     arr.splice(index, 1);
+    //     this.setState({songs: arr});
+    //
+    //     axios.delete('http://localhost:8013/api/v1/song/' + {id});
+    // };
 
     updateBlock(){
 

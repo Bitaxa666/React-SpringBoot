@@ -32421,29 +32421,41 @@
 	    _react2.default.createElement(_moreVert2.default, { color: _colors.grey400 })
 	);
 	
-	var rightIconMenu = _react2.default.createElement(
-	    _IconMenu2.default,
-	    { iconButtonElement: iconButtonElement },
+	function handleDeleteSong(id, index) {
+	    console.log(id, "Delete");
+	    // var arr = this.state.songs;
+	    // arr.splice(index, 1);
+	    // this.setState({songs: arr});
+	    //
+	    // axios.delete('http://localhost:8013/api/v1/song/' + {id});
+	};
+	
+	function rightIconMenu(id) {
+	    return;
 	    _react2.default.createElement(
-	        _MenuItem2.default
-	        /* onClick={this.handleDeleteSong.bind(this)}*/
-	        ,
-	        {
-	            disabled: true
-	        },
-	        'Test'
-	    ),
-	    _react2.default.createElement(
-	        _MenuItem2.default,
-	        null,
-	        'Update'
-	    ),
-	    _react2.default.createElement(
-	        _MenuItem2.default,
-	        null,
-	        'Delete'
-	    )
-	);
+	        _IconMenu2.default,
+	        { iconButtonElement: iconButtonElement },
+	        _react2.default.createElement(
+	            _MenuItem2.default
+	            /*onClick={handleDeleteSong(id)}*/
+	            ,
+	            {
+	                disabled: true
+	            },
+	            'Test'
+	        ),
+	        _react2.default.createElement(
+	            _MenuItem2.default,
+	            null,
+	            'Update'
+	        ),
+	        _react2.default.createElement(
+	            _MenuItem2.default,
+	            null,
+	            'Delete'
+	        )
+	    );
+	};
 	
 	var SongItem = _react2.default.createClass({
 	    displayName: 'SongItem',
@@ -32451,7 +32463,7 @@
 	    render: function render() {
 	        return _react2.default.createElement(_List.ListItem, {
 	            leftAvatar: _react2.default.createElement(_Avatar2.default, { src: this.props.photoUrl }),
-	            rightIconButton: rightIconMenu,
+	            rightIconButton: rightIconMenu(this.props.id),
 	            primaryText: this.props.name,
 	            secondaryText: _react2.default.createElement(
 	                'p',
@@ -32466,7 +32478,6 @@
 	                _react2.default.createElement('br', null)
 	            ),
 	            secondaryTextLines: 2
-	
 	        });
 	    }
 	});
@@ -32484,23 +32495,22 @@
 	            dataSource: [],
 	            songName: '',
 	            newSongs: []
-	
-	        };
-	        _this.handleDeleteSong = _this.handleDeleteSong.bind(_this);
-	        return _this;
+	            // this.handleDeleteSong = this.handleDeleteSong.bind(this);
+	        };return _this;
 	    }
 	
 	    _createClass(ListExampleMessages, [{
-	        key: 'handleDeleteSong',
-	        value: function handleDeleteSong(index, id) {
-	            var arr = this.state.songs;
-	            arr.splice(index, 1);
-	            this.setState({ songs: arr });
-	
-	            _axios2.default.delete('http://localhost:8013/api/v1/song/' + { id: id });
-	        }
-	    }, {
 	        key: 'updateBlock',
+	
+	        //
+	        // handleDeleteSong(index, id){
+	        //     var arr = this.state.songs;
+	        //     arr.splice(index, 1);
+	        //     this.setState({songs: arr});
+	        //
+	        //     axios.delete('http://localhost:8013/api/v1/song/' + {id});
+	        // };
+	
 	        value: function updateBlock() {}
 	    }, {
 	        key: 'render',
@@ -44388,25 +44398,29 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Dialog = __webpack_require__(/*! material-ui/Dialog */ 456);
+	var _Dialog = __webpack_require__(/*! material-ui/Dialog */ 454);
 	
 	var _Dialog2 = _interopRequireDefault(_Dialog);
 	
-	var _FlatButton = __webpack_require__(/*! material-ui/FlatButton */ 458);
+	var _FlatButton = __webpack_require__(/*! material-ui/FlatButton */ 456);
 	
 	var _FlatButton2 = _interopRequireDefault(_FlatButton);
 	
-	var _TextField = __webpack_require__(/*! material-ui/TextField */ 461);
+	var _TextField = __webpack_require__(/*! material-ui/TextField */ 459);
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _FloatingActionButton = __webpack_require__(/*! material-ui/FloatingActionButton */ 467);
+	var _FloatingActionButton = __webpack_require__(/*! material-ui/FloatingActionButton */ 465);
 	
 	var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
 	
-	var _add = __webpack_require__(/*! material-ui/svg-icons/content/add */ 469);
+	var _add = __webpack_require__(/*! material-ui/svg-icons/content/add */ 467);
 	
 	var _add2 = _interopRequireDefault(_add);
+	
+	var _Snackbar = __webpack_require__(/*! material-ui/Snackbar */ 468);
+	
+	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 	
 	var _colors = __webpack_require__(/*! material-ui/styles/colors */ 304);
 	
@@ -44450,6 +44464,7 @@
 	
 	        _this.state = {
 	            open: false,
+	            openSuccessDialog: false,
 	            dataSource: [],
 	            songName: '',
 	            newSongs: [],
@@ -44499,12 +44514,25 @@
 	    }, {
 	        key: 'handleClose',
 	        value: function handleClose() {
-	            this.setState({ open: false });
+	            this.setState({
+	                open: false,
+	                openSuccessDialog: false,
+	
+	                name: '',
+	                idColor: 5,
+	                duration: '',
+	                photoUrl: '',
+	                description: '',
+	                songUrl: ''
+	            });
 	        }
 	    }, {
 	        key: 'handleOnSubmit',
 	        value: function handleOnSubmit() {
 	
+	            this.setState({
+	                openSuccessDialog: true
+	            });
 	            var newSong = {
 	                name: this.state.name,
 	                idColor: this.state.idColor,
@@ -44534,6 +44562,11 @@
 	                primary: true,
 	                keyboardFocused: true,
 	                onClick: this.handleOnSubmit
+	            }), _react2.default.createElement(_Snackbar2.default, {
+	                open: this.state.openSuccessDialog,
+	                message: 'Song is added to list',
+	                autoHideDuration: 2000,
+	                onRequestClose: this.handleClose
 	            })];
 	
 	            return _react2.default.createElement(
@@ -44642,9 +44675,7 @@
 	exports.default = MyAwesomeReactComponent;
 
 /***/ }),
-/* 454 */,
-/* 455 */,
-/* 456 */
+/* 454 */
 /*!***************************************!*\
   !*** ./~/material-ui/Dialog/index.js ***!
   \***************************************/
@@ -44657,7 +44688,7 @@
 	});
 	exports.default = undefined;
 	
-	var _Dialog = __webpack_require__(/*! ./Dialog */ 457);
+	var _Dialog = __webpack_require__(/*! ./Dialog */ 455);
 	
 	var _Dialog2 = _interopRequireDefault(_Dialog);
 	
@@ -44666,7 +44697,7 @@
 	exports.default = _Dialog2.default;
 
 /***/ }),
-/* 457 */
+/* 455 */
 /*!****************************************!*\
   !*** ./~/material-ui/Dialog/Dialog.js ***!
   \****************************************/
@@ -45282,7 +45313,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 458 */
+/* 456 */
 /*!*******************************************!*\
   !*** ./~/material-ui/FlatButton/index.js ***!
   \*******************************************/
@@ -45295,7 +45326,7 @@
 	});
 	exports.default = undefined;
 	
-	var _FlatButton = __webpack_require__(/*! ./FlatButton */ 459);
+	var _FlatButton = __webpack_require__(/*! ./FlatButton */ 457);
 	
 	var _FlatButton2 = _interopRequireDefault(_FlatButton);
 	
@@ -45304,7 +45335,7 @@
 	exports.default = _FlatButton2.default;
 
 /***/ }),
-/* 459 */
+/* 457 */
 /*!************************************************!*\
   !*** ./~/material-ui/FlatButton/FlatButton.js ***!
   \************************************************/
@@ -45366,7 +45397,7 @@
 	
 	var _EnhancedButton2 = _interopRequireDefault(_EnhancedButton);
 	
-	var _FlatButtonLabel = __webpack_require__(/*! ./FlatButtonLabel */ 460);
+	var _FlatButtonLabel = __webpack_require__(/*! ./FlatButtonLabel */ 458);
 	
 	var _FlatButtonLabel2 = _interopRequireDefault(_FlatButtonLabel);
 	
@@ -45659,7 +45690,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 460 */
+/* 458 */
 /*!*****************************************************!*\
   !*** ./~/material-ui/FlatButton/FlatButtonLabel.js ***!
   \*****************************************************/
@@ -45758,7 +45789,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 461 */
+/* 459 */
 /*!******************************************!*\
   !*** ./~/material-ui/TextField/index.js ***!
   \******************************************/
@@ -45771,7 +45802,7 @@
 	});
 	exports.default = undefined;
 	
-	var _TextField = __webpack_require__(/*! ./TextField */ 462);
+	var _TextField = __webpack_require__(/*! ./TextField */ 460);
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
@@ -45780,7 +45811,7 @@
 	exports.default = _TextField2.default;
 
 /***/ }),
-/* 462 */
+/* 460 */
 /*!**********************************************!*\
   !*** ./~/material-ui/TextField/TextField.js ***!
   \**********************************************/
@@ -45844,19 +45875,19 @@
 	
 	var _transitions2 = _interopRequireDefault(_transitions);
 	
-	var _EnhancedTextarea = __webpack_require__(/*! ./EnhancedTextarea */ 463);
+	var _EnhancedTextarea = __webpack_require__(/*! ./EnhancedTextarea */ 461);
 	
 	var _EnhancedTextarea2 = _interopRequireDefault(_EnhancedTextarea);
 	
-	var _TextFieldHint = __webpack_require__(/*! ./TextFieldHint */ 464);
+	var _TextFieldHint = __webpack_require__(/*! ./TextFieldHint */ 462);
 	
 	var _TextFieldHint2 = _interopRequireDefault(_TextFieldHint);
 	
-	var _TextFieldLabel = __webpack_require__(/*! ./TextFieldLabel */ 465);
+	var _TextFieldLabel = __webpack_require__(/*! ./TextFieldLabel */ 463);
 	
 	var _TextFieldLabel2 = _interopRequireDefault(_TextFieldLabel);
 	
-	var _TextFieldUnderline = __webpack_require__(/*! ./TextFieldUnderline */ 466);
+	var _TextFieldUnderline = __webpack_require__(/*! ./TextFieldUnderline */ 464);
 	
 	var _TextFieldUnderline2 = _interopRequireDefault(_TextFieldUnderline);
 	
@@ -46380,7 +46411,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 463 */
+/* 461 */
 /*!*****************************************************!*\
   !*** ./~/material-ui/TextField/EnhancedTextarea.js ***!
   \*****************************************************/
@@ -46646,7 +46677,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 464 */
+/* 462 */
 /*!**************************************************!*\
   !*** ./~/material-ui/TextField/TextFieldHint.js ***!
   \**************************************************/
@@ -46735,7 +46766,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 465 */
+/* 463 */
 /*!***************************************************!*\
   !*** ./~/material-ui/TextField/TextFieldLabel.js ***!
   \***************************************************/
@@ -46861,7 +46892,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 466 */
+/* 464 */
 /*!*******************************************************!*\
   !*** ./~/material-ui/TextField/TextFieldUnderline.js ***!
   \*******************************************************/
@@ -47009,7 +47040,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 467 */
+/* 465 */
 /*!*****************************************************!*\
   !*** ./~/material-ui/FloatingActionButton/index.js ***!
   \*****************************************************/
@@ -47022,7 +47053,7 @@
 	});
 	exports.default = undefined;
 	
-	var _FloatingActionButton = __webpack_require__(/*! ./FloatingActionButton */ 468);
+	var _FloatingActionButton = __webpack_require__(/*! ./FloatingActionButton */ 466);
 	
 	var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
 	
@@ -47031,7 +47062,7 @@
 	exports.default = _FloatingActionButton2.default;
 
 /***/ }),
-/* 468 */
+/* 466 */
 /*!********************************************************************!*\
   !*** ./~/material-ui/FloatingActionButton/FloatingActionButton.js ***!
   \********************************************************************/
@@ -47432,7 +47463,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ }),
-/* 469 */
+/* 467 */
 /*!************************************************!*\
   !*** ./~/material-ui/svg-icons/content/add.js ***!
   \************************************************/
@@ -47470,6 +47501,682 @@
 	ContentAdd.muiName = 'SvgIcon';
 	
 	exports.default = ContentAdd;
+
+/***/ }),
+/* 468 */
+/*!*****************************************!*\
+  !*** ./~/material-ui/Snackbar/index.js ***!
+  \*****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+	
+	var _Snackbar = __webpack_require__(/*! ./Snackbar */ 469);
+	
+	var _Snackbar2 = _interopRequireDefault(_Snackbar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _Snackbar2.default;
+
+/***/ }),
+/* 469 */
+/*!********************************************!*\
+  !*** ./~/material-ui/Snackbar/Snackbar.js ***!
+  \********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends2 = __webpack_require__(/*! babel-runtime/helpers/extends */ 348);
+	
+	var _extends3 = _interopRequireDefault(_extends2);
+	
+	var _objectWithoutProperties2 = __webpack_require__(/*! babel-runtime/helpers/objectWithoutProperties */ 353);
+	
+	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+	
+	var _getPrototypeOf = __webpack_require__(/*! babel-runtime/core-js/object/get-prototype-of */ 194);
+	
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+	
+	var _classCallCheck2 = __webpack_require__(/*! babel-runtime/helpers/classCallCheck */ 220);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(/*! babel-runtime/helpers/createClass */ 221);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _possibleConstructorReturn2 = __webpack_require__(/*! babel-runtime/helpers/possibleConstructorReturn */ 225);
+	
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+	
+	var _inherits2 = __webpack_require__(/*! babel-runtime/helpers/inherits */ 271);
+	
+	var _inherits3 = _interopRequireDefault(_inherits2);
+	
+	var _simpleAssign = __webpack_require__(/*! simple-assign */ 354);
+	
+	var _simpleAssign2 = _interopRequireDefault(_simpleAssign);
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _propTypes = __webpack_require__(/*! prop-types */ 279);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _transitions = __webpack_require__(/*! ../styles/transitions */ 356);
+	
+	var _transitions2 = _interopRequireDefault(_transitions);
+	
+	var _ClickAwayListener = __webpack_require__(/*! ../internal/ClickAwayListener */ 406);
+	
+	var _ClickAwayListener2 = _interopRequireDefault(_ClickAwayListener);
+	
+	var _SnackbarBody = __webpack_require__(/*! ./SnackbarBody */ 470);
+	
+	var _SnackbarBody2 = _interopRequireDefault(_SnackbarBody);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function getStyles(props, context, state) {
+	  var _context$muiTheme = context.muiTheme,
+	      desktopSubheaderHeight = _context$muiTheme.baseTheme.spacing.desktopSubheaderHeight,
+	      zIndex = _context$muiTheme.zIndex;
+	  var open = state.open;
+	
+	
+	  var styles = {
+	    root: {
+	      position: 'fixed',
+	      left: '50%',
+	      display: 'flex',
+	      bottom: 0,
+	      zIndex: zIndex.snackbar,
+	      visibility: open ? 'visible' : 'hidden',
+	      transform: open ? 'translate(-50%, 0)' : 'translate(-50%, ' + desktopSubheaderHeight + 'px)',
+	      transition: _transitions2.default.easeOut('400ms', 'transform') + ', ' + _transitions2.default.easeOut('400ms', 'visibility')
+	    }
+	  };
+	
+	  return styles;
+	}
+	
+	var Snackbar = function (_Component) {
+	  (0, _inherits3.default)(Snackbar, _Component);
+	
+	  function Snackbar() {
+	    var _ref;
+	
+	    var _temp, _this, _ret;
+	
+	    (0, _classCallCheck3.default)(this, Snackbar);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Snackbar.__proto__ || (0, _getPrototypeOf2.default)(Snackbar)).call.apply(_ref, [this].concat(args))), _this), _this.componentClickAway = function () {
+	      if (_this.timerTransitionId) {
+	        // If transitioning, don't close the snackbar.
+	        return;
+	      }
+	
+	      if (_this.props.open !== null && _this.props.onRequestClose) {
+	        _this.props.onRequestClose('clickaway');
+	      } else {
+	        _this.setState({ open: false });
+	      }
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+	  }
+	
+	  (0, _createClass3.default)(Snackbar, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.setState({
+	        open: this.props.open,
+	        message: this.props.message,
+	        action: this.props.action
+	      });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      if (this.state.open) {
+	        this.setAutoHideTimer();
+	        this.setTransitionTimer();
+	      }
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var _this2 = this;
+	
+	      if (this.props.open && nextProps.open && (nextProps.message !== this.props.message || nextProps.action !== this.props.action)) {
+	        this.setState({
+	          open: false
+	        });
+	
+	        clearTimeout(this.timerOneAtTheTimeId);
+	        this.timerOneAtTheTimeId = setTimeout(function () {
+	          _this2.setState({
+	            message: nextProps.message,
+	            action: nextProps.action,
+	            open: true
+	          });
+	        }, 400);
+	      } else {
+	        var open = nextProps.open;
+	
+	        this.setState({
+	          open: open !== null ? open : this.state.open,
+	          message: nextProps.message,
+	          action: nextProps.action
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate(prevProps, prevState) {
+	      if (prevState.open !== this.state.open) {
+	        if (this.state.open) {
+	          this.setAutoHideTimer();
+	          this.setTransitionTimer();
+	        } else {
+	          clearTimeout(this.timerAutoHideId);
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      clearTimeout(this.timerAutoHideId);
+	      clearTimeout(this.timerTransitionId);
+	      clearTimeout(this.timerOneAtTheTimeId);
+	    }
+	  }, {
+	    key: 'setAutoHideTimer',
+	
+	
+	    // Timer that controls delay before snackbar auto hides
+	    value: function setAutoHideTimer() {
+	      var _this3 = this;
+	
+	      var autoHideDuration = this.props.autoHideDuration;
+	
+	      if (autoHideDuration > 0) {
+	        clearTimeout(this.timerAutoHideId);
+	        this.timerAutoHideId = setTimeout(function () {
+	          if (_this3.props.open !== null && _this3.props.onRequestClose) {
+	            _this3.props.onRequestClose('timeout');
+	          } else {
+	            _this3.setState({ open: false });
+	          }
+	        }, autoHideDuration);
+	      }
+	    }
+	
+	    // Timer that controls delay before click-away events are captured (based on when animation completes)
+	
+	  }, {
+	    key: 'setTransitionTimer',
+	    value: function setTransitionTimer() {
+	      var _this4 = this;
+	
+	      this.timerTransitionId = setTimeout(function () {
+	        _this4.timerTransitionId = undefined;
+	      }, 400);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props,
+	          autoHideDuration = _props.autoHideDuration,
+	          contentStyle = _props.contentStyle,
+	          bodyStyle = _props.bodyStyle,
+	          messageProp = _props.message,
+	          onRequestClose = _props.onRequestClose,
+	          onActionClick = _props.onActionClick,
+	          style = _props.style,
+	          other = (0, _objectWithoutProperties3.default)(_props, ['autoHideDuration', 'contentStyle', 'bodyStyle', 'message', 'onRequestClose', 'onActionClick', 'style']);
+	      var _state = this.state,
+	          action = _state.action,
+	          message = _state.message,
+	          open = _state.open;
+	      var prepareStyles = this.context.muiTheme.prepareStyles;
+	
+	      var styles = getStyles(this.props, this.context, this.state);
+	
+	      return _react2.default.createElement(
+	        _ClickAwayListener2.default,
+	        { onClickAway: open ? this.componentClickAway : null },
+	        _react2.default.createElement(
+	          'div',
+	          (0, _extends3.default)({}, other, { style: prepareStyles((0, _simpleAssign2.default)(styles.root, style)) }),
+	          _react2.default.createElement(_SnackbarBody2.default, {
+	            action: action,
+	            contentStyle: contentStyle,
+	            message: message,
+	            open: open,
+	            onActionClick: onActionClick,
+	            style: bodyStyle
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	  return Snackbar;
+	}(_react.Component);
+	
+	Snackbar.contextTypes = {
+	  muiTheme: _propTypes2.default.object.isRequired
+	};
+	Snackbar.propTypes = process.env.NODE_ENV !== "production" ? {
+	  /**
+	   * The label for the action on the snackbar.
+	   */
+	  action: _propTypes2.default.node,
+	  /**
+	   * The number of milliseconds to wait before automatically dismissing.
+	   * If no value is specified the snackbar will dismiss normally.
+	   * If a value is provided the snackbar can still be dismissed normally.
+	   * If a snackbar is dismissed before the timer expires, the timer will be cleared.
+	   */
+	  autoHideDuration: _propTypes2.default.number,
+	  /**
+	   * Override the inline-styles of the body element.
+	   */
+	  bodyStyle: _propTypes2.default.object,
+	  /**
+	   * The css class name of the root element.
+	   */
+	  className: _propTypes2.default.string,
+	  /**
+	   * Override the inline-styles of the content element.
+	   */
+	  contentStyle: _propTypes2.default.object,
+	  /**
+	   * The message to be displayed.
+	   *
+	   * (Note: If the message is an element or array, and the `Snackbar` may re-render while it is still open,
+	   * ensure that the same object remains as the `message` property if you want to avoid the `Snackbar` hiding and
+	   * showing again)
+	   */
+	  message: _propTypes2.default.node.isRequired,
+	  /**
+	   * Fired when the action button is clicked.
+	   *
+	   * @param {object} event Action button event.
+	   */
+	  onActionClick: _propTypes2.default.func,
+	  /**
+	   * Fired when the `Snackbar` is requested to be closed by a click outside the `Snackbar`, or after the
+	   * `autoHideDuration` timer expires.
+	   *
+	   * Typically `onRequestClose` is used to set state in the parent component, which is used to control the `Snackbar`
+	   * `open` prop.
+	   *
+	   * The `reason` parameter can optionally be used to control the response to `onRequestClose`,
+	   * for example ignoring `clickaway`.
+	   *
+	   * @param {string} reason Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`
+	   */
+	  onRequestClose: _propTypes2.default.func,
+	  /**
+	   * Controls whether the `Snackbar` is opened or not.
+	   */
+	  open: _propTypes2.default.bool.isRequired,
+	  /**
+	   * Override the inline-styles of the root element.
+	   */
+	  style: _propTypes2.default.object
+	} : {};
+	exports.default = Snackbar;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
+
+/***/ }),
+/* 470 */
+/*!************************************************!*\
+  !*** ./~/material-ui/Snackbar/SnackbarBody.js ***!
+  \************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.SnackbarBody = undefined;
+	
+	var _extends2 = __webpack_require__(/*! babel-runtime/helpers/extends */ 348);
+	
+	var _extends3 = _interopRequireDefault(_extends2);
+	
+	var _objectWithoutProperties2 = __webpack_require__(/*! babel-runtime/helpers/objectWithoutProperties */ 353);
+	
+	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+	
+	var _simpleAssign = __webpack_require__(/*! simple-assign */ 354);
+	
+	var _simpleAssign2 = _interopRequireDefault(_simpleAssign);
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _propTypes = __webpack_require__(/*! prop-types */ 279);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _transitions = __webpack_require__(/*! ../styles/transitions */ 356);
+	
+	var _transitions2 = _interopRequireDefault(_transitions);
+	
+	var _withWidth = __webpack_require__(/*! ../utils/withWidth */ 471);
+	
+	var _withWidth2 = _interopRequireDefault(_withWidth);
+	
+	var _FlatButton = __webpack_require__(/*! ../FlatButton */ 456);
+	
+	var _FlatButton2 = _interopRequireDefault(_FlatButton);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function getStyles(props, context) {
+	  var open = props.open,
+	      width = props.width;
+	  var _context$muiTheme = context.muiTheme,
+	      _context$muiTheme$bas = _context$muiTheme.baseTheme,
+	      _context$muiTheme$bas2 = _context$muiTheme$bas.spacing,
+	      desktopGutter = _context$muiTheme$bas2.desktopGutter,
+	      desktopSubheaderHeight = _context$muiTheme$bas2.desktopSubheaderHeight,
+	      fontFamily = _context$muiTheme$bas.fontFamily,
+	      _context$muiTheme$sna = _context$muiTheme.snackbar,
+	      backgroundColor = _context$muiTheme$sna.backgroundColor,
+	      textColor = _context$muiTheme$sna.textColor,
+	      actionColor = _context$muiTheme$sna.actionColor,
+	      borderRadius = _context$muiTheme.borderRadius;
+	
+	
+	  var isSmall = width === _withWidth.SMALL;
+	
+	  var styles = {
+	    root: {
+	      fontFamily: fontFamily,
+	      backgroundColor: backgroundColor,
+	      padding: '0 ' + desktopGutter + 'px',
+	      height: desktopSubheaderHeight,
+	      lineHeight: desktopSubheaderHeight + 'px',
+	      borderRadius: isSmall ? 0 : borderRadius,
+	      maxWidth: isSmall ? 'inherit' : 568,
+	      minWidth: isSmall ? 'inherit' : 288,
+	      width: isSmall ? 'calc(100vw - ' + desktopGutter * 2 + 'px)' : 'auto',
+	      flexGrow: isSmall ? 1 : 0
+	    },
+	    content: {
+	      fontSize: 14,
+	      color: textColor,
+	      opacity: open ? 1 : 0,
+	      transition: open ? _transitions2.default.easeOut('500ms', 'opacity', '100ms') : _transitions2.default.easeOut('400ms', 'opacity')
+	    },
+	    action: {
+	      color: actionColor,
+	      float: 'right',
+	      marginTop: 6,
+	      marginRight: -16,
+	      marginLeft: desktopGutter,
+	      backgroundColor: 'transparent'
+	    }
+	  };
+	
+	  return styles;
+	}
+	
+	var SnackbarBody = function SnackbarBody(props, context) {
+	  var action = props.action,
+	      contentStyle = props.contentStyle,
+	      message = props.message,
+	      open = props.open,
+	      onActionClick = props.onActionClick,
+	      style = props.style,
+	      other = (0, _objectWithoutProperties3.default)(props, ['action', 'contentStyle', 'message', 'open', 'onActionClick', 'style']);
+	  var prepareStyles = context.muiTheme.prepareStyles;
+	
+	  var styles = getStyles(props, context);
+	
+	  var actionButton = action && _react2.default.createElement(_FlatButton2.default, {
+	    style: styles.action,
+	    label: action,
+	    onClick: onActionClick
+	  });
+	
+	  return _react2.default.createElement(
+	    'div',
+	    (0, _extends3.default)({}, other, { style: prepareStyles((0, _simpleAssign2.default)(styles.root, style)) }),
+	    _react2.default.createElement(
+	      'div',
+	      { style: prepareStyles((0, _simpleAssign2.default)(styles.content, contentStyle)) },
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        message
+	      ),
+	      actionButton
+	    )
+	  );
+	};
+	
+	exports.SnackbarBody = SnackbarBody;
+	SnackbarBody.propTypes = process.env.NODE_ENV !== "production" ? {
+	  /**
+	   * The label for the action on the snackbar.
+	   */
+	  action: _propTypes2.default.node,
+	  /**
+	   * Override the inline-styles of the content element.
+	   */
+	  contentStyle: _propTypes2.default.object,
+	  /**
+	   * The message to be displayed.
+	   *
+	   * (Note: If the message is an element or array, and the `Snackbar` may re-render while it is still open,
+	   * ensure that the same object remains as the `message` property if you want to avoid the `Snackbar` hiding and
+	   * showing again)
+	   */
+	  message: _propTypes2.default.node.isRequired,
+	  /**
+	   * Fired when the action button is clicked.
+	   *
+	   * @param {object} event Action button event.
+	   */
+	  onActionClick: _propTypes2.default.func,
+	  /**
+	   * @ignore
+	   * Controls whether the `Snackbar` is opened or not.
+	   */
+	  open: _propTypes2.default.bool.isRequired,
+	  /**
+	   * Override the inline-styles of the root element.
+	   */
+	  style: _propTypes2.default.object,
+	  /**
+	   * @ignore
+	   * Width of the screen.
+	   */
+	  width: _propTypes2.default.number.isRequired
+	} : {};
+	
+	SnackbarBody.contextTypes = {
+	  muiTheme: _propTypes2.default.object.isRequired
+	};
+	
+	exports.default = (0, _withWidth2.default)()(SnackbarBody);
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/~/node-libs-browser/~/process/browser.js */ 3)))
+
+/***/ }),
+/* 471 */
+/*!******************************************!*\
+  !*** ./~/material-ui/utils/withWidth.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.LARGE = exports.MEDIUM = exports.SMALL = undefined;
+	
+	var _extends2 = __webpack_require__(/*! babel-runtime/helpers/extends */ 348);
+	
+	var _extends3 = _interopRequireDefault(_extends2);
+	
+	var _getPrototypeOf = __webpack_require__(/*! babel-runtime/core-js/object/get-prototype-of */ 194);
+	
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+	
+	var _classCallCheck2 = __webpack_require__(/*! babel-runtime/helpers/classCallCheck */ 220);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(/*! babel-runtime/helpers/createClass */ 221);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _possibleConstructorReturn2 = __webpack_require__(/*! babel-runtime/helpers/possibleConstructorReturn */ 225);
+	
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+	
+	var _inherits2 = __webpack_require__(/*! babel-runtime/helpers/inherits */ 271);
+	
+	var _inherits3 = _interopRequireDefault(_inherits2);
+	
+	exports.default = withWidth;
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactEventListener = __webpack_require__(/*! react-event-listener */ 409);
+	
+	var _reactEventListener2 = _interopRequireDefault(_reactEventListener);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SMALL = exports.SMALL = 1;
+	var MEDIUM = exports.MEDIUM = 2;
+	var LARGE = exports.LARGE = 3;
+	
+	function withWidth() {
+	  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var _options$largeWidth = options.largeWidth,
+	      largeWidth = _options$largeWidth === undefined ? 992 : _options$largeWidth,
+	      _options$mediumWidth = options.mediumWidth,
+	      mediumWidth = _options$mediumWidth === undefined ? 768 : _options$mediumWidth,
+	      _options$resizeInterv = options.resizeInterval,
+	      resizeInterval = _options$resizeInterv === undefined ? 166 : _options$resizeInterv;
+	
+	
+	  return function (MyComponent) {
+	    return function (_Component) {
+	      (0, _inherits3.default)(WithWidth, _Component);
+	
+	      function WithWidth() {
+	        var _ref;
+	
+	        var _temp, _this, _ret;
+	
+	        (0, _classCallCheck3.default)(this, WithWidth);
+	
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	          args[_key] = arguments[_key];
+	        }
+	
+	        return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = WithWidth.__proto__ || (0, _getPrototypeOf2.default)(WithWidth)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+	          width: null
+	        }, _this.handleResize = function () {
+	          clearTimeout(_this.deferTimer);
+	          _this.deferTimer = setTimeout(function () {
+	            _this.updateWidth();
+	          }, resizeInterval);
+	        }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+	      }
+	
+	      (0, _createClass3.default)(WithWidth, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	          this.updateWidth();
+	        }
+	      }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	          clearTimeout(this.deferTimer);
+	        }
+	      }, {
+	        key: 'updateWidth',
+	        value: function updateWidth() {
+	          var innerWidth = window.innerWidth;
+	          var width = void 0;
+	
+	          if (innerWidth >= largeWidth) {
+	            width = LARGE;
+	          } else if (innerWidth >= mediumWidth) {
+	            width = MEDIUM;
+	          } else {
+	            // innerWidth < 768
+	            width = SMALL;
+	          }
+	
+	          if (width !== this.state.width) {
+	            this.setState({
+	              width: width
+	            });
+	          }
+	        }
+	      }, {
+	        key: 'render',
+	        value: function render() {
+	          var width = this.state.width;
+	
+	          /**
+	           * When rendering the component on the server,
+	           * we have no idea about the screen width.
+	           * In order to prevent blinks and help the reconciliation
+	           * we are not rendering the component.
+	           *
+	           * A better alternative would be to send client hints.
+	           * But the browser support of this API is low:
+	           * http://caniuse.com/#search=client%20hint
+	           */
+	          if (width === null) {
+	            return null;
+	          }
+	
+	          return _react2.default.createElement(
+	            _reactEventListener2.default,
+	            { target: 'window', onResize: this.handleResize },
+	            _react2.default.createElement(MyComponent, (0, _extends3.default)({
+	              width: width
+	            }, this.props))
+	          );
+	        }
+	      }]);
+	      return WithWidth;
+	    }(_react.Component);
+	  };
+	}
 
 /***/ })
 /******/ ]);

@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 /**
  * Created by user on 3/6/18.
- */
+ *//*
 @Data
 @Entity
 public class Employee {
@@ -35,3 +35,4 @@ public class Employee {
         this.age = age;
     }
 }
+*/

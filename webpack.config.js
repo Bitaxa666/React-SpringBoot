@@ -27,5 +27,14 @@ module.exports = {
             {loader: 'url-loader', test: /\.gif$/},
             {loader: 'file-loader', test: /\.(ttf|eot|svg)$/}
         ],
+    },
+    resolve: {
+        root: __dirname,
+        alias: {
+
+            App: './src/main/js/app.js',
+
+        },
+        extensions: ['', '.js', '.jsx']
     }
 };
