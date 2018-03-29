@@ -1,7 +1,7 @@
 /**
  * Created by user on 3/22/18.
  */
-
+import React from 'react';
 import { AutoRotatingCarousel, Slide } from 'material-auto-rotating-carousel'
 import { green400, green600, blue400, blue600, red400, red600 } from 'material-ui/styles/colors'
 

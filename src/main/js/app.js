@@ -130,7 +130,7 @@ class App extends Component {
                     <MyAwesomeReactComponent searchField={this.state.searchField} handleSearch={this.handleSearch} />
                 </div>
                 <Paper className="listPapper" style={style} zDepth={4}>
-                    <ListExampleMessages songs={this.state.displayedSongs} /> {/*displayedSongs*/}
+                    <ListExampleMessages songs={this.state.displayedSongs} />
                 </Paper>
             </div>
         </MuiThemeProvider>)

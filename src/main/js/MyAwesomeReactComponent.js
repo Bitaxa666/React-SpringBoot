@@ -9,8 +9,8 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Snackbar from 'material-ui/Snackbar';
 import {lightGreenA700, green800} from 'material-ui/styles/colors';
-import { connect } from 'react-redux';
-import store from '../path/to/store';
+/*import { connect } from 'react-redux';
+import store from '../path/to/store';*/
 import axios from 'axios';
 
 const style = {

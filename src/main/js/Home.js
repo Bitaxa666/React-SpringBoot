@@ -1,13 +1,17 @@
 /**
  * Created by user on 3/20/18.
  */
-import React from 'react';
+import React, { PropTypes} from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import {List, ListItem} from 'material-ui/List';
 import ContentHome from 'material-ui/svg-icons/action/home';
 import Divider from 'material-ui/Divider';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+// Pages
+import HomeRoute from './HomeRoute'
+import SongListContainer from './listExampleSelectable';
+
 
 
 const style = {
@@ -32,42 +36,50 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div className="appBar">
-                <AppBar
-                        style={style}
-                        title="SONG LIST"
-                        onLeftIconButtonClick={this.handleToggle} >
-                    <Drawer className="drawerBackGround"
-                            width={180}
-                            open={this.state.open}
-                            zDepth={2}
-                            docked={false}
-                            containerStyle={{ backgroundColor: '#D0F5A9',}}>
-                        <AppBar
+            <Router>
+                <div className="appBar">
+                    <AppBar
                             style={style}
-                            onTitleClick={this.handleToggleClose}
-                            title="Menu"
-                            onLeftIconButtonClick={this.handleToggleClose}
-                        />
-                        <List>
-                            <ListItem primaryText="Home"
-                                      rightIcon={<ContentHome />}
-                                      onClick={this.handleToggleClose} /*Добавить слайдер при клике на эту ссылку*/
+                            title="SONG LIST"
+                            onLeftIconButtonClick={this.handleToggle} >
+                        <Drawer className="drawerBackGround"
+                                width={180}
+                                open={this.state.open}
+                                zDepth={2}
+                                docked={false}
+                                containerStyle={{ backgroundColor: '#D0F5A9',}}>
+                            <AppBar
+                                style={style}
+                                onTitleClick={this.handleToggleClose}
+                                title="Menu"
+                                onLeftIconButtonClick={this.handleToggleClose}
                             />
-                            <ListItem primaryText="Songs List"
-                                      onClick={this.handleToggleClose}
-                            />
-                            <ListItem primaryText="Player"
-                                      onClick={this.handleToggleClose}
-                            />
-                            <ListItem primaryText="Technology"
-                                      onClick={this.handleToggleClose}
-                            />
-                        </List>
-                        <Divider style={{ backgroundColor: '#80FF00',}} />
-                    </Drawer>
-                </AppBar>
-            </div>
+                            <List>
+                                <ListItem primaryText="Home"
+                                          rightIcon={<ContentHome />}
+                                          onClick={this.handleToggleClose} /*Добавить слайдер при клике на эту ссылку*/
+                                >
+
+                                </ListItem>
+                                <ListItem primaryText="Songs List"
+                                          onClick={this.handleToggleClose}
+                                >
+
+                                </ListItem>
+                                <ListItem primaryText="Player"
+                                          onClick={this.handleToggleClose}
+                                />
+                                <ListItem primaryText="Technology"
+                                          onClick={this.handleToggleClose}
+                                />
+                            </List>
+                            <Divider style={{ backgroundColor: '#80FF00',}} />
+                        </Drawer>
+                    </AppBar>
+
+
+                </div>
+            </Router>
         );
     }
 }
