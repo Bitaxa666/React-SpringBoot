@@ -7,6 +7,7 @@ import Drawer from 'material-ui/Drawer';
 import {List, ListItem} from 'material-ui/List';
 import ContentHome from 'material-ui/svg-icons/action/home';
 import Divider from 'material-ui/Divider';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 
 const style = {

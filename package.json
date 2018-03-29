@@ -34,7 +34,8 @@
   },
   "scripts": {
     "watch": "webpack --watch -d",
-    "test": "jest --config jest.config.js"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
@@ -48,7 +49,41 @@
     "enzyme": "^3.3.0",
     "eslint": "^4.19.0",
     "eslint-plugin-import": "^2.9.0",
+    "expect": "^22.4.3",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.3",
-    "react-addons-test-utils": "^15.6.2"
+    "mocha": "^5.0.5",
+    "react-addons-test-utils": "^15.6.2",
+    "react-redux": "^5.0.7",
+    "react-test-renderer": "^16.2.0",
+    "redux": "^3.7.2",
+    "redux-devtools": "^3.4.1"
+  },
+  "jest": {
+    "setupFiles": [
+      "./src/main/js/test/jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/enzyme-to-json/serializer"
+    ],
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils",
+      "<rootDir>/node_modules/fbjs"
+    ],
+    "testFileExtensions": [
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "es6"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(css|scss)$": "identity-obj-proxy"
+    }
   }
 }

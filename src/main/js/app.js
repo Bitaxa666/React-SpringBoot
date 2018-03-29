@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-//import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ListExampleMessages from './listExampleSelectable';
 import Home from './Home';
 import MyAwesomeReactComponent from './MyAwesomeReactComponent';
 import axios from 'axios';
+import { createStore, combineReducers } from 'redux';
 /**/
 /*
 class App extends Component {
@@ -45,6 +45,21 @@ class App extends Component {
     }
 }
 */
+const ADD_SONG = 'ADD_SONG';
+const REMOVE_SONG = 'REMOVE_SONG';
+const LOAD_SONGS = 'LOAD_SONGS';
+// The ListSong Reducer
+const listReducer = function(state = {}, action) {
+    return state;
+}
+
+// Combine Reducers
+const reducers = combineReducers({
+    userState: listReducer
+});
+
+const store = createStore(reducers);
+
 const style = {
     height: '100%',
     width: '65%' ,

@@ -74,8 +74,8 @@ function handleDeleteSong(id, index){
 };
 
 
-function rightIconMenu(id) {
-    return
+const rightIconMenu = (
+
     <IconMenu iconButtonElement={iconButtonElement}>
         <MenuItem
             disabled={true}
@@ -89,14 +89,14 @@ function rightIconMenu(id) {
             Delete
         </MenuItem>
     </IconMenu>
-};
+);
 
 var SongItem = React.createClass({
     render: function () {
         return(
             <ListItem
                 leftAvatar={<Avatar src={this.props.photoUrl} />}
-                rightIconButton={rightIconMenu(this.props.id)}
+                rightIconButton={rightIconMenu}
                 primaryText={this.props.name}
                 secondaryText={
                     <p>
@@ -157,6 +157,7 @@ export default class ListExampleMessages extends React.Component {
                                         />
                                         {
                                             this.props.songs.length - 1 > index &&
+
                                             <Divider style={{backgroundColor: '#80FF00',}}/>
                                         }
                                     </div>

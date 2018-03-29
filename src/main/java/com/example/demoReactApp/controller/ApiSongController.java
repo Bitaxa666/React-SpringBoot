@@ -6,18 +6,18 @@ import com.example.demoReactApp.employee.Color;
 import com.example.demoReactApp.employee.Song;
 import com.example.demoReactApp.services.ISongServices;
 import com.example.demoReactApp.uril.CustomErrorType;
+import com.sun.xml.internal.bind.v2.TODO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collection;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
 
 /**
  * Created by user on 3/21/18.
@@ -40,7 +40,6 @@ public class ApiSongController {
 
     //-----------------------------All Songs List
     @GetMapping("/songs")
-    //@ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Song>> getAllSong(){
         logger.info("getting all users");
         List<Song> songs = songRepository.findAll();
@@ -49,86 +48,102 @@ public class ApiSongController {
             return new ResponseEntity<List<Song>>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Song>>(songs, HttpStatus.OK);
-        //return songRepository.findAll();
     }
 
     //---------------------------Get song by id
     @GetMapping("/song/{id}")
-    public ResponseEntity<Song> getSong(@PathVariable("id") long id){
+    public ResponseEntity<?> getSong(@PathVariable("id") long id){
         logger.info("getting song with id: {}", id);
         Song song = songService.findById(id);
-        //Song song = songRepository.findOne();
-        if (song == null){
+        try {
+            if(song.getIdColor() !=0) {
+                logger.info("song with id is find: {}, {}", id, song);
+                return new ResponseEntity<Song>(song, HttpStatus.OK);
+            }else{
+                logger.info("song with id {} not found", id);
+                return new ResponseEntity<>(new CustomErrorType("Unable to song. Song with id " + id + " not found."),
+                        HttpStatus.NOT_FOUND);
+            }
+        }catch (EntityNotFoundException e) {
             logger.info("song with id {} not found", id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomErrorType("Unable to song. Song with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
         }
-        logger.info("song with id is find: {}, {}", id, song);
-        return new ResponseEntity<Song>(song, HttpStatus.OK);
-
     }
     // -------------------Create a Song
     @PostMapping("/song")
-    @ResponseStatus(HttpStatus.OK)
-    public Song createMessage(@RequestBody Song song) {
-        logger.info("Creating Song : {}", song);
-        songService.saveSong(song);
-        return song;
+    public ResponseEntity<?> createMessage(@RequestBody Song song) {
+        Song s = song;
+        if(s.getIdColor() == 0 || s.getName() == null || s.getDuration() == null ||
+                s.getPhotoUrl() == null || s.getDescription() == null || s.getSongUrl() == null)
+        {
+            return new ResponseEntity(new CustomErrorType("Some fields is empty: try again."),
+                    HttpStatus.BAD_REQUEST);
+        }else{
+            logger.info("Creating Song : {}", song);
+            songService.saveSong(song);
+            return new ResponseEntity<Song>(song, HttpStatus.OK);
+        }
     }
     // --------------------Edit Existing Song
     @PutMapping(value = "/song/{id}")
-    public ResponseEntity<?> updateSong(@PathVariable long id, @RequestBody Song song){
-        logger.info("updating user: {}", song);
-        Song currentSong = songService.findById(id);
+    public ResponseEntity<?> updateSong(@PathVariable long id, @RequestBody Song song) {
 
-        if (currentSong == null){
-            logger.info("User with id {} not found", id);
-            return new ResponseEntity(new CustomErrorType("Song with id: " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
+        Song s = song;
+        if(s.getIdColor() == 0 || s.getName() == null || s.getDuration() == null ||
+                s.getPhotoUrl() == null || s.getDescription() == null || s.getSongUrl() == null)
+        {
+            return new ResponseEntity(new CustomErrorType("Some fields is empty: try again."),
+                    HttpStatus.BAD_REQUEST);
+        }else {
+            logger.info("get updating song: {}", song);
+            Song currentSong = songService.findById(id);
+            try {
+                logger.info("Edit Song : {}", song);
+                currentSong.setIdColor(song.getIdColor());
+                currentSong.setName(song.getName());
+                currentSong.setDuration(song.getDuration());
+                currentSong.setDescription(song.getDescription());
+                currentSong.setPhotoUrl(song.getPhotoUrl());
+                currentSong.setSongUrl(song.getSongUrl());
+
+                songService.updateSong(currentSong);//или song
+                return new ResponseEntity<Song>(currentSong, HttpStatus.OK);
+
+            } catch (EntityNotFoundException e) {
+                logger.info("song with id {} not found", id);
+                return new ResponseEntity<>(new CustomErrorType("Unable to song. Song with id " + id + " not found."),
+                        HttpStatus.NOT_FOUND);
+            }
         }
-        currentSong.setName(song.getName());
-        currentSong.setDuration(song.getDuration());
-        currentSong.setDescription(song.getDescription());
-        currentSong.setPhotoUrl(song.getPhotoUrl());
-        currentSong.setSongUrl(song.getSongUrl());
 
-        songService.updateSong(currentSong);//или song
-        return new ResponseEntity<Song>(currentSong, HttpStatus.OK);
     }
     // ------------------- Delete a Song
     @DeleteMapping("/song/{id}")
     public ResponseEntity<?> deleteSong(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting Song with id {}", id);
-        Song songForDel = songService.findById(id);
-        if (songForDel == null) {
+        songService.findById(id);
+        try {
+            songService.deleteSongById(id);
+            return new ResponseEntity<Song>(HttpStatus.NO_CONTENT);
+        }catch (EmptyResultDataAccessException e) {
             logger.error("Unable to delete. Song with id {} not found.", id);
             return new ResponseEntity(new CustomErrorType("Unable to delete. Song with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
-        songService.deleteSongById(id);
-        return new ResponseEntity<Song>(HttpStatus.NO_CONTENT);
     }
-
 
     // -------------------------- Get Song By Color
     @GetMapping("/{id}/songs")
-    public ResponseEntity<List<Color>> getColorSongs(@PathVariable("id") long id){
+    public ResponseEntity<?> getColorSongs(@PathVariable("id") long id){
         logger.info("getting all song with id: {}", id);
-        //Optional<Color> col1 = colorRepository.findById(id);
         List<Color> col = colorRepository.findByIdColor(id);
 
-        /*Map<Color, Song> color = colorRepository.findById(id);
-        //Song song = songRepository.findOne();
-        if (color == null){
-            logger.info("song with id {} not found", id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        logger.info("song with id is find: {}, {}", id, color);
-        return new ResponseEntity<Song>(color, HttpStatus.OK);*/
-        //logger.info("song with id is find: {}, {}", id, col1.getSongs());
-        if(col !=null){
+        if(col.size() != 0){
             return new ResponseEntity<List<Color>>(col, HttpStatus.OK);
         } else {
-            return new ResponseEntity<List<Color>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomErrorType("Unable to color. color with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
         }
 
     }
